@@ -9,37 +9,17 @@ private:
 
 	double r;
 
-	int n; //количество сегментов (количество элементов - 1)
+	int n; //РєРѕР»РёС‡РµСЃС‚РІРѕ СЌР»РµРјРµРЅС‚РѕРІ (РєРѕР»РёС‡РµСЃС‚РІРѕ СЃРµРіРјРµРЅС‚РѕРІ - 1)
 
 	std::vector<double> h;
 
 	std::vector<std::pair<double, double>> Grid;
 
-	std::vector<double> a; std::vector<double> b; std::vector<double> c; std::vector<double> d; //массивы коэффициентов сплайна
+	std::vector<double> a; std::vector<double> b; std::vector<double> c; std::vector<double> d; //РєРѕСЌС„С„РёС†РёРµРЅС‚С‹ СЃРїР»Р°Р№РЅР°
 
 public:
 
-	//конструктор для двух сегментов из задания, default)
-	Spline() {
-
-		h.push_back(1.);
-
-		n = 2;
-
-		double start = -1.;
-
-		for (int i = 0; i < 3; i++) {
-
-			Grid.push_back(std::pair<double, double>(start, f(start)));
-
-			start += h.back();
-
-		}
-
-
-	};
-
-	//конструктор с параметрами; для регулярной сетки r = 1
+	//РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ; РґР»СЏ СЂРµРіСѓР»СЏСЂРЅРѕР№ СЃРµС‚РєРё r = 1. РћС‚СЂРµР·РѕРє Р·Р°РґР°С‘С‚СЃСЏ РЅР°С‡Р°Р»СЊРЅРѕР№ С‚РѕС‡РєРѕР№, С€Р°РіРѕРј Рё РїР°СЂР°РјРµС‚СЂРѕРј СЂРµР»Р°РєСЃР°С†РёРё
 	Spline(double input_h, double input_start, double input_r, int input_n) {
 
 		h.push_back(input_h);
@@ -82,23 +62,21 @@ public:
 
 	};
 
-	//возвращает значение аналитической функции
+	//РІРѕР·РІСЂР°С‰Р°РµС‚ Р·РЅР°С‡РµРЅРёРµ Р°РЅР°Р»РёС‚РёС‡РµСЃРєРѕР№ С„СѓРЅРєС†РёРё
 	double f(double x) {
 
-		return std::pow(x, 3) - x;
-
-		//return std::exp(x);
+		return std::pow(x, 3) + x;
 
 	}
 
-	//возвращает значение первой производной
+	//Р·РЅР°С‡РµРЅРёРµ РїСЂРѕРёР·РІРѕРґРЅРѕР№ Р°РЅР°Р»РёС‚РёС‡РµСЃРєРѕР№ С„СѓРЅРєС†РёРё
 	double df(double x) {
 
-		return 3 * std::pow(x, 2) - 1.;
+		return 3 * std::pow(x, 2) + 1.;
 
 	}
 
-	//возвращает значение второй производной
+	//Р·РЅР°С‡РµРЅРёРµ РІС‚РѕСЂРѕР№ РїСЂРѕРёР·РІРѕРґРЅРѕР№ Р°РЅР°Р»РёС‚РёС‡РµСЃРєРѕР№ С„СѓРЅРєС†РёРё
 
 	double ddf(double x) {
 
@@ -106,7 +84,7 @@ public:
 
 	}
 
-	//возвращает значение сплайна
+	//РІРѕР·РІСЂР°С‰Р°РµС‚ Р·РЅР°С‡РµРЅРёРµ СЃРїР»Р°Р№РЅР°
 	double g(double x) {
 
 		double Grid_Inc = Grid.at(0).first + h.at(0);
@@ -145,7 +123,7 @@ public:
 
 	}
 
-	//возвращает значение первой производной
+	//Р·РЅР°С‡РµРЅРёРµ РµРіРѕ РїСЂРѕРёР·РІРѕРґРЅРѕР№
 	double dg(double x) {
 
 		double Grid_Inc = Grid.at(0).first + h.at(0);
@@ -184,7 +162,7 @@ public:
 
 	}
 
-	//возвращает значение второй производной
+	//Р·РЅР°С‡РµРЅРёРµ РµРіРѕ РІС‚РѕСЂРѕР№ РїСЂРѕРёР·РІРѕРґРЅРѕР№
 
 	double ddg(double x) {
 
@@ -225,7 +203,7 @@ public:
 
 	}
 
-	//вычисляет векторы a, b, c, d
+	//РІС‹С‡РёСЃР»СЏРµС‚ РєРѕСЌС„С„РёС†РёРµРЅС‚С‹ СЃРїР»Р°Р№РЅР°
 	void gMake() {
 
 		std::vector<double> B;
@@ -259,7 +237,7 @@ public:
 
 		std::vector<double> v; std::vector<double> u;
 
-		double y; //знаменатель
+		double y; //Р·РЅР°РјРµРЅР°С‚РµР»СЊ РјРµС‚РѕРґР° РїСЂРѕРіРѕРЅРєРё, РґР»СЏ СѓРґРѕР±СЃС‚РІР°
 
 		if (std::abs(1. - r) >= std::numeric_limits<double>::epsilon()) {
 
@@ -293,9 +271,9 @@ public:
 
 			}
 
-			c.push_back(0.); //метод прогонки~~
+			c.push_back(0.); //РјРµС‚РѕРґ РїСЂРѕРіРѕРЅРєРё~~
 
-			std::reverse(c.begin(), c.end()); //~~записывает значение в обратном порядке
+			std::reverse(c.begin(), c.end()); //~~РІС‹С‡РёСЃР»СЏРµС‚ Р·РЅР°С‡РµРЅРёСЏ СЃ РєРѕРЅС†Р°
 
 			for (int i = 0; i < n - 2; i++) {
 
@@ -346,9 +324,9 @@ public:
 
 			}
 
-			c.push_back(0); //метод прогонки~~
-
-			std::reverse(c.begin(), c.end()); //~~записывает значение в обратном порядке
+			c.push_back(0);
+			
+			std::reverse(c.begin(), c.end());
 
 			for (int i = 0; i < n - 2; i++) {
 
@@ -416,7 +394,7 @@ int main() {
 
 		} while (r == 0. || r == 1.);
 
-		r = r * std::fabs(X.get_xGrid_at(0) - X.get_xGrid_at(X.get_n() - 1)) + X.get_xGrid_at(0); //сдвигаме диапазон
+		r = r * std::fabs(X.get_xGrid_at(0) - X.get_xGrid_at(X.get_n() - 1)) + X.get_xGrid_at(0); //СЃРґРІРёРі РґРёР°РїР°Р·РѕРЅР°
 
 		for (int i = 0; i < X.get_n(); i++) {
 
@@ -442,7 +420,7 @@ int main() {
 
 	std::sort(P.begin(), P.end());
 
-	//вывод сеток
+	//Р’С‹РІРѕРґ СЃРµС‚РєРё
 
 	std::cout << std::scientific << "h = 0.125" << std::endl;
 
@@ -455,7 +433,7 @@ int main() {
 
 	std::cout << std::endl;
 
-	//вывод функции
+	//Р’С‹РІРѕРґ С„СѓРЅРєС†РёРё
 
 	std::cout << std::scientific << "x" << "\t\t" << "f(x)" << "\t\t" << "f'(x)" << "\t\t" << "f''(x)" << std::endl;
 
@@ -467,7 +445,7 @@ int main() {
 
 	std::cout << std::endl;
 
-	//разбиение
+	//Р’С‹РІРѕРґ СЃРїР»Р°Р№РЅР°
 
 	std::cout << std::scientific << "x" << "\t\t" << "g(x)" << "\t\t" << "g'(x)" << "\t\t" << "g''(x)" << std::endl;
 
@@ -479,7 +457,7 @@ int main() {
 
 	std::cout << std::endl;
 
-	//Погрешности
+	//РџРѕРіСЂРµС€РЅРѕСЃС‚Рё
 
 	std::cout << std::scientific << "h = 0.125" << std::endl;
 	std::cout << std::scientific << "|f - g|\t\t|f' - g'|" << std::endl;
