@@ -398,7 +398,7 @@ int main() {
 
 		for (int i = 0; i < X.get_n(); i++) {
 
-			if (std::fabs(r -X.get_xGrid_at(i)) < std::numeric_limits<double>::epsilon()) {
+			if (std::fabs(r - X.get_xGrid_at(i)) < std::numeric_limits<double>::epsilon()) {
 
 				j = false;
 
